@@ -2,6 +2,7 @@ package ContasBancarias;
 
 public abstract class Conta {
 	
+	private static int totalDeContas = 0;
 	private String cpf;
 	private double saldo;
 	private int agencia;
@@ -10,6 +11,7 @@ public abstract class Conta {
 		this.cpf = cpf;
 		this.saldo = saldo;
 		this.agencia = agencia;
+		Conta.totalDeContas++;
 	}
 	
 	public String getCpf() {
@@ -29,6 +31,10 @@ public abstract class Conta {
 	}
 	public void setAgencia(int agencia) {
 		this.agencia = agencia;
+	}
+
+	public static int getTotalDeContas() {
+		return totalDeContas;
 	}
 
 }
