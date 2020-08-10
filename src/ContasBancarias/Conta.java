@@ -12,6 +12,11 @@ public abstract class Conta {
 		this.agencia = agencia;
 	}
 	
+	public void Sacar() {}
+	public void Depositar () {}
+	public void Transferir() {}
+	public void DepositarTransferencia(double valor ) {}
+	
 	public String getCpf() {
 		return cpf;
 	}
