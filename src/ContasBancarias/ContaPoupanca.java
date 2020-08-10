@@ -8,7 +8,7 @@ public class ContaPoupanca extends Conta {
 		super(cpf, saldo, agencia);
 		this.tipo = tipo;
 	}
-	
+	@Override
 	public void Sacar (double valor) {
 		if(this.getSaldo()>=valor + 0.10) {
 		double saque = this.getSaldo() - valor - 0.10;
@@ -18,18 +18,18 @@ public class ContaPoupanca extends Conta {
 			System.out.println("Saldo insuficiente.");
 		}
 	}
-	
+	@Override
 	public void Depositar (double valor) {
 		double deposite = this.getSaldo() + valor - 0.10;
 		this.setSaldo(deposite);
 	}
-	
+	@Override
 	public void DepositarTransferencia (double valor) {
 		double deposite = this.getSaldo() + valor;
 		this.setSaldo(deposite);
 	}
-
-	public void Transferir (double valor, Conta Destino) {
+	@Override
+	public void Transferir (Conta Destino, double valor) {
 		if (this.getSaldo() >= valor + 0.20) {
 			this.Sacar(valor + 0.10);
 			Destino.DepositarTransferencia(valor);
