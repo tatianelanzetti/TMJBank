@@ -1,12 +1,11 @@
 package ContasBancarias;
 
-public class ContaCorrente extends Conta{
-	
-	private String tipo;
+import Carteira.Cliente;
 
-	public ContaCorrente(String cpf, double saldo, int agencia, String tipo) {
-		super(cpf, saldo, agencia);
-		this.tipo = tipo;
+public class ContaCorrente extends Conta{
+
+	public ContaCorrente(Cliente cliente, String cpf, double saldo, int agencia, String tipo) {
+		super(cliente, cpf, saldo, agencia, tipo);
 	}
 	
 	@Override
@@ -38,13 +37,6 @@ public class ContaCorrente extends Conta{
 		}else {
 			System.out.println("Saldo insuficiente.");
 		}
-	}
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}	
 
 }

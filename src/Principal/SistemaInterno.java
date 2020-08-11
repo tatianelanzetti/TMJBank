@@ -1,14 +1,16 @@
 package Principal;
 
+import java.io.IOException;
+
 import ContasBancarias.ContaCorrente;
 
 public class SistemaInterno {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Menu display = new Menu();
 		
-		display.main();
+		display.displayMain();
 		
 //		teste
 //		ContaCorrente cc = new ContaCorrente("123.456.789-00", 3000.0, 0001, "Conta Corrente");

@@ -1,10 +1,11 @@
 package Principal;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
 	
-	public void main() {
+	public void displayMain() throws IOException {
 		Scanner input = new Scanner(System.in);
 		
 		System.out.println("\n******************************************************************************************");
@@ -20,6 +21,7 @@ public class Menu {
 		System.out.println("\n******************************************************************************************");
 		System.out.print("                                CPF: ");
 		String cpf = input.next();
+		Runtime.getRuntime().exec("cls");
 		System.out.print("                                PASSWORD: ");
 		String password = input.next();
 		
