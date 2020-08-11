@@ -4,8 +4,8 @@ public class Diretor extends Funcionario{
 	
 	private int diretoria;
 	
-	public Diretor(String nome, String cpf, String cargo, int senha, int diretoria) {
-		super(nome, cpf, cargo, senha);
+	public Diretor(int senha, String cpf, String cargo, String nome, int diretoria) {
+		super(senha, cpf, cargo, nome);
 		this.diretoria = diretoria;
 	}
 

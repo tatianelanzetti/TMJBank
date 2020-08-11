@@ -2,8 +2,8 @@ package Pessoal;
 
 public class Presidente extends Funcionario {
 	
-	public Presidente(String nome, String cpf, String cargo, int senha) {
-		super(nome, cpf, cargo, senha);
+	public Presidente(int senha, String cpf, String cargo, String nome) {
+		super(senha, cpf, cargo, nome);
 	}
 
 }

@@ -1,11 +1,9 @@
 package ContasBancarias;
 
-import Carteira.Cliente;
-
 public class ContaCorrente extends Conta{
 
-	public ContaCorrente(Cliente cliente, String cpf, double saldo, int agencia, String tipo) {
-		super(cliente, cpf, saldo, agencia, tipo);
+	public ContaCorrente(String cpf, double saldo, int agencia, String tipo) {
+		super(cpf, saldo, agencia, tipo);
 	}
 	
 	@Override

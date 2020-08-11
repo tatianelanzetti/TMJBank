@@ -1,17 +1,16 @@
 package ContasBancarias;
 
-import Carteira.Cliente;
-import sistema.Usuario;
 
-public abstract class Conta extends Usuario {
+public abstract class Conta {
 	
 	private static int totalDeContas = 0;
+	private String cpf;
 	private double saldo;
 	private int agencia;
 	private String tipo;
 	
-	public Conta(Cliente cliente, String cpf, double saldo, int agencia, String tipo) {
-		super(cliente.getNome(), cpf);
+	public Conta(String cpf, double saldo, int agencia, String tipo) {
+		this.cpf = cpf;
 		this.saldo = saldo;
 		this.agencia = agencia;
 		this.tipo = tipo;
@@ -23,6 +22,14 @@ public abstract class Conta extends Usuario {
 	public abstract void Transferir(Conta destino, double valor);
 	public abstract void DepositarTransferencia(double valor );
 	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
 	public double getSaldo() {
 		return saldo;
 	}

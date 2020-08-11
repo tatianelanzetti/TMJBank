@@ -1,16 +1,17 @@
 package Pessoal;
 
-import sistema.Usuario;
-
-public abstract class Funcionario extends Usuario {
+public abstract class Funcionario {
 	
-	private String cargo;
 	private int senha;
+	private String cpf;
+	private String cargo;
+	private String nome;
 	
-	public Funcionario(String nome, String cpf, String cargo, int senha) {
-		super(nome, cpf);
-		this.cargo = cargo;
+	public Funcionario(int senha, String cpf, String cargo, String nome) {
 		this.senha = senha;
+		this.cpf = cpf;
+		this.cargo = cargo;
+		this.nome = nome;
 	}
 	
 	public int getSenha() {
@@ -19,6 +20,22 @@ public abstract class Funcionario extends Usuario {
 
 	public void setSenha(int senha) {
 		this.senha = senha;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getCargo() {
