@@ -4,12 +4,14 @@ public class Pessoa {
 	private String nome;
 	private String cpf;
 	private String tipo;
+	private int senha;
 	
 	
-	public Pessoa(String nome, String cpf, String tipo) {
+	public Pessoa(String nome, String cpf, String tipo, int senha) {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.tipo = tipo;
+		this.senha = senha;
 	}
 	
 	public String getNome() {
@@ -31,6 +33,14 @@ public class Pessoa {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public int getSenha() {
+		return senha;
+	}
+
+	public void setSenha(int senha) {
+		this.senha = senha;
 	}
 	
 	

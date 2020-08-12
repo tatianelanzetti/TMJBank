@@ -3,16 +3,18 @@ package Principal;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import Carteira.Cliente;
 import ContasBancarias.Conta;
-import Pessoal.Funcionario;
+import ContasBancarias.ContaCorrente;
+import ContasBancarias.ContaPoupanca;
 import Pessoal.Gerente;
 import Pessoal.Pessoa;
 import Pessoal.Diretor;
 import Pessoal.Presidente;
+import enums.ContaEnum;
+import enums.pessoaEnum;
 
 public class cargaDeDados {
 
@@ -21,33 +23,37 @@ public class cargaDeDados {
 		String linha = "";
 		
 		while(true) {
-			Funcionario funcionario = null;
-			Cliente cliente = null;
+			Pessoa funcionario = null;
+			Conta conta = null;
 			
 			linha = buffRead.readLine();
 //			System.out.println(linha);
 			
 			if(linha != null) {
 				String[] split = linha.split(";");
-				if(split[2].equalsIgnoreCase("GERENTE")) {
-					funcionario = new Gerente(Integer.parseInt(split[0]), split[1], split[2], split[3], Integer.parseInt(split[4]));
+				if(split[2].equalsIgnoreCase(pessoaEnum.GERENTE.name())) {
+					funcionario = new Gerente(split[0], split[1], split[2], Integer.parseInt(split[3]), Integer.parseInt(split[4]));
 					p.add(funcionario);
-					System.out.println(funcionario);
 				} 
-				else if(split[2].equalsIgnoreCase("DIRETOR")) {
-					funcionario = new Diretor(Integer.parseInt(split[0]), split[1], split[2], split[3], Integer.parseInt(split[4]));
+				else if(split[2].equalsIgnoreCase(pessoaEnum.DIRETOR.name())) {
+					funcionario = new Diretor(split[0], split[1], split[2], Integer.parseInt(split[3]), Integer.parseInt(split[4]));
 					p.add(funcionario);
-					System.out.println(funcionario);
 				}
-				else if(split[2].equalsIgnoreCase("PRESIDENTE")) {
-					funcionario = new Presidente(Integer.parseInt(split[0]), split[1], split[2], split[3]);
+				else if(split[2].equalsIgnoreCase(pessoaEnum.PRESIDENTE.name())) {
+					funcionario = new Presidente(split[0], split[1], split[2], Integer.parseInt(split[3]));
 					p.add(funcionario);
-					System.out.println(funcionario);
 				}
-				else if(split[2].equalsIgnoreCase("PRESIDENTE")) {
-					funcionario = new Presidente(Integer.parseInt(split[0]), split[1], split[2], split[3]);
+				else if(split[2].equalsIgnoreCase(pessoaEnum.CLIENTE.name())) {
+					funcionario = new Cliente(split[0], split[1], split[2], Integer.parseInt(split[3]));
 					p.add(funcionario);
-					System.out.println(funcionario);
+				}
+				else if(split[3].equalsIgnoreCase(ContaEnum.CONTACORRENTE.name())) {
+					conta = new ContaCorrente(split[0], Double.parseDouble(split[1]), Integer.parseInt(split[2]), split[3]);
+					c.add(conta);
+				}
+				else if(split[3].equalsIgnoreCase(ContaEnum.CONTAPOUPANCA.name())) {
+					conta = new ContaPoupanca(split[0], Double.parseDouble(split[1]), Integer.parseInt(split[2]), split[3]);
+					c.add(conta);
 				}
 			}
 			else
