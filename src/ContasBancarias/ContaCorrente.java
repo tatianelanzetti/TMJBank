@@ -11,15 +11,15 @@ public class ContaCorrente extends Conta implements taxas{
 	}
 	
 	@Override
-	public void Sacar (double valor) {
+	public boolean Sacar (double valor) {
 		if(this.getSaldo()>=valor + TAXASAQUE) {
 		double saque = this.getSaldo() - valor - TAXASAQUE;
 		this.setSaldo(saque);
 		this.qtdSaque++;
+		return true;
 		}
-		else {
-			System.out.println("Saldo insuficiente.");
-		}
+		System.out.println("Saldo insuficiente.");
+		return false;
 	}
 	@Override
 	public void Depositar (double valor) {

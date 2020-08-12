@@ -17,7 +17,7 @@ public abstract class Conta {
 		Conta.totalDeContas++;
 	}
 	
-	public abstract void Sacar(double valor);
+	public abstract boolean Sacar(double valor);
 	public abstract void Depositar (double valor);
 	public abstract void Transferir(Conta destino, double valor);
 	public abstract void DepositarTransferencia(double valor );

@@ -47,13 +47,13 @@ public class Menu {
 
 					switch(tipo) {
 					case("CLIENTE"):
-						displayCliente(conta, listaC);
+						displayCliente(conta, listaC, listaP.get(i));
 					break;
 					case("GERENTE"):
-						displayGerente(conta, listaC);
+						displayGerente(conta, listaC, listaP.get(i));
 					break;
 					case("DIRETOR"):
-						displayDiretor(conta, listaC, listaP);
+						displayDiretor(conta, listaP.get(i), listaC, listaP);
 					break;
 					case("PRESIDENTE"):
 						displayPresidente(listaC);
@@ -68,7 +68,7 @@ public class Menu {
 			System.out.println("                                CPF NÃO CADASTRADO!");
 	}
 	
-	public boolean displayCliente(Conta conta, List<Conta> listaConta) {
+	public boolean displayCliente(Conta conta, List<Conta> listaConta, Pessoa pessoa) throws IOException {
 		if(conta == null) return false;
 		
 		System.out.println("MENU CLIENTE!");
@@ -103,7 +103,10 @@ public class Menu {
 							opcao1 = input.nextInt();
 							if(opcao1 == 1){
 								System.out.println("Digite o valor desejado para saque: ");
-								conta.Sacar(input.nextDouble());
+								double valor = input.nextDouble(); 
+								boolean sacou = conta.Sacar(valor);
+								if(sacou)
+									EscritorDeTransacoes.escritorSaque(pessoa, conta, valor);
 							} else if(opcao1 == 2){
 								System.out.println("Digite o valor para depósito: ");
 								conta.Depositar(input.nextDouble());
@@ -157,7 +160,7 @@ public class Menu {
 		}
 		return true;
 	}
-	public void displayGerente(Conta conta, List<Conta> listaConta) {
+	public void displayGerente(Conta conta, List<Conta> listaConta, Pessoa pessoa) throws IOException {
 		
 		System.out.println("*****************************************");
 		System.out.println("Como deseja acessar o sistema?");
@@ -168,14 +171,14 @@ public class Menu {
 		int opcao = input.nextInt();
 		
 		if(opcao == 1)
-			displayCliente(conta, listaConta);
+			displayCliente(conta, listaConta, pessoa);
 		else if(opcao == 2) {
 			relatorio.gerente(listaConta, conta );
 		} else
 			System.out.println("Opção Inválida");
 		
 	}
-	public void displayDiretor(Conta conta, List<Conta> listaConta, List<Pessoa> listaPessoa) {
+	public void displayDiretor(Conta conta, Pessoa pessoa, List<Conta> listaConta, List<Pessoa> listaPessoa) throws IOException {
 		System.out.println("*****************************************");
 		System.out.println("Como deseja acessar o sistema?");
 		System.out.println("1 - Cliente");
@@ -185,7 +188,7 @@ public class Menu {
 		int opcao = input.nextInt();
 		
 		if(opcao == 1)
-			displayCliente(conta, listaConta);
+			displayCliente(conta, listaConta, pessoa);
 		else if(opcao == 2) {
 			relatorio.diretor(listaConta, listaPessoa);
 		} else
