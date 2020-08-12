@@ -8,10 +8,11 @@ import ContasBancarias.Conta;
 import Pessoal.Pessoa;
 
 public class Menu {
+	@SuppressWarnings("resource")
+		Scanner input = new Scanner(System.in);
+		VerificaListas verifica = new VerificaListas();
 	
 	public void displayMain(List<Pessoa> listaP, List<Conta> listaC) throws IOException {
-		@SuppressWarnings("resource")
-		Scanner input = new Scanner(System.in);
 		
 		System.out.println("\n******************************************************************************************");
 
@@ -36,14 +37,16 @@ public class Menu {
 				System.out.print("                                PASSWORD:    ");
 				int password = input.nextInt();
  				if(listaP.get(i).getSenha() == password) { //Testa a senha
-					tipo = listaP.get(i).getTipo();
+					
+ 					tipo = listaP.get(i).getTipo();
+					Conta conta = verifica.econtraConta(listaP.get(i).getCpf(), listaC);
 
 					switch(tipo) {
 					case("CLIENTE"):
-						displayCliente(listaC.get(i), listaC);
+						displayCliente(conta, listaC);
 					break;
 					case("GERENTE"):
-						displayGerente(listaC.get(i), listaC);
+						displayGerente(conta, listaC);
 					break;
 					case("DIRETOR"):
 						displayDiretor();
@@ -61,9 +64,10 @@ public class Menu {
 			System.out.println("                                CPF NÃO CADASTRADO!");
 	}
 	
-	public void displayCliente(Conta conta, List<Conta> listaConta) {
+	public boolean displayCliente(Conta conta, List<Conta> listaConta) {
+		if(conta == null) return false;
+		
 		System.out.println("MENU CLIENTE!");
-		Scanner input = new Scanner(System.in);
 
 		int opcao;
 		int opcao1;
@@ -103,10 +107,7 @@ public class Menu {
 								double valor = input.nextDouble();
 								System.out.println("Digite o CPF da conta destino: ");
 								String cpf = input.next();
-								for(int i = 0; i<listaConta.size(); i++) {
-									if(listaConta.get(i).getCpf().equals(cpf))
-										conta.Transferir(listaConta.get(i), valor);									
-								}
+								conta.Transferir(verifica.econtraConta(cpf, listaConta), valor);
 							} else {
 								System.out.println("Opção Inválida!");
 								System.out.println("Escolha uma opção Válida: ");
@@ -149,6 +150,7 @@ public class Menu {
 			System.out.println("Deseja fazer outra operação? (S/N) ");
 			resp = input.next();
 		}
+		return true;
 	}
 	public void displayGerente(Conta conta, List<Conta> listaConta) {
 		Scanner input = new Scanner(System.in);
@@ -175,7 +177,7 @@ public class Menu {
 		System.out.println("MENU PRESIDENTE!");
 	}
 	
-
+	
 
 }
 
