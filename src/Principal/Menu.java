@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.Scanner;
 
 import ContasBancarias.Conta;
+import ContasBancarias.SeguroDeVida;
 import Pessoal.Pessoa;
+import Relatorios.RelatoriosCliente;
 
 public class Menu {
-	@SuppressWarnings("resource")
+
 		Scanner input = new Scanner(System.in);
 		VerificaListas verifica = new VerificaListas();
+		RelatoriosCliente relatorioCliente = new RelatoriosCliente();
+		SeguroDeVida seguroVida = new SeguroDeVida();
 	
 	public void displayMain(List<Pessoa> listaP, List<Conta> listaC) throws IOException {
 		
@@ -93,6 +97,7 @@ public class Menu {
 							System.out.println("1 - Saque");
 							System.out.println("2 - Depósito");
 							System.out.println("3 - Transferência");
+							System.out.println("4 - Seguro de Vida");
 							System.out.println("*****************************************");
 							System.out.println("Escolha uma opção: ");
 							opcao1 = input.nextInt();
@@ -108,11 +113,14 @@ public class Menu {
 								System.out.println("Digite o CPF da conta destino: ");
 								String cpf = input.next();
 								conta.Transferir(verifica.econtraConta(cpf, listaConta), valor);
-							} else {
+							} else if(opcao1 == 4){
+								seguroVida.contrata(conta);
+							} 
+							else {
 								System.out.println("Opção Inválida!");
 								System.out.println("Escolha uma opção Válida: ");
 							}
-						  } while(opcao1 > 3 || opcao1 < 1);
+						  } while(opcao1 > 4 || opcao1 < 1);
 					break;
 		
 				case(2):
@@ -121,25 +129,22 @@ public class Menu {
 						System.out.println("1 - Saldo");
 						System.out.println("2 - Tributação da Conta corrente");
 						System.out.println("3 - Rendimento da Conta Poupança");
-						System.out.println("4 - Seguro de Vida");
 						System.out.println("*****************************************");
 						System.out.println("Escolha uma opção: ");
 						opcao2 = input.nextInt();
 				
 						if(opcao2 == 1){
 							System.out.println("Seu saldo atualizado é de R$ "+conta.getSaldo());
-						} //else if(opcao2 == 2){
-//							tributacao();
-//						} else if(opcao2 == 3){
-//							Rendimento();
-//						}else if(opcao2 == 4){
-//							Seguro();
-//						}
-//						else{
-//						System.out.println("Opção Inválida!");
-//						System.out.println("Escolha uma opção Válida: ");
-//						}
-					}while(opcao2 > 4 || opcao2 < 1);
+						} else if(opcao2 == 2){
+							relatorioCliente.tributacao(conta);
+						} else if(opcao2 == 3){
+							relatorioCliente.rendimento();
+						}
+						else{
+						System.out.println("Opção Inválida!");
+						System.out.println("Escolha uma opção Válida: ");
+						}
+					}while(opcao2 > 3 || opcao2 < 1);
 				break;
 				
 				default:
