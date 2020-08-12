@@ -1,6 +1,6 @@
 package ContasBancarias;
 
-public class ContaPoupanca extends Conta {
+public class ContaPoupanca extends Conta implements taxas{
 		
 	public ContaPoupanca(String cpf, double saldo, int agencia, String tipo) {
 		super(cpf, saldo, agencia, tipo);
@@ -8,8 +8,8 @@ public class ContaPoupanca extends Conta {
 	
 	@Override
 	public void Sacar (double valor) {
-		if(this.getSaldo()>=valor + 0.10) {
-		double saque = this.getSaldo() - valor - 0.10;
+		if(this.getSaldo()>=valor + TAXASAQUE) {
+		double saque = this.getSaldo() - valor - TAXASAQUE;
 		this.setSaldo(saque);
 		}
 		else {
@@ -18,7 +18,7 @@ public class ContaPoupanca extends Conta {
 	}
 	@Override
 	public void Depositar (double valor) {
-		double deposite = this.getSaldo() + valor - 0.10;
+		double deposite = this.getSaldo() + valor - TAXADEPOSITO;
 		this.setSaldo(deposite);
 	}
 	@Override
@@ -28,8 +28,8 @@ public class ContaPoupanca extends Conta {
 	}
 	@Override
 	public void Transferir (Conta Destino, double valor) {
-		if (this.getSaldo() >= valor + 0.20) {
-			this.Sacar(valor + 0.10);
+		if (this.getSaldo() >= valor + TAXATRANSFERENCIA) {
+			this.Sacar(valor + TAXASAQUE);
 			Destino.DepositarTransferencia(valor);
 			
 		}else {
