@@ -1,4 +1,4 @@
-package Relatorios;
+package relatorios;
 
 import java.util.Scanner;
 

@@ -1,13 +1,19 @@
-package Relatorios;
+package relatorios;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import ContasBancarias.Conta;
 import ContasBancarias.ContaCorrente;
 import ContasBancarias.taxas;
+import Pessoal.Pessoa;
+import Principal.VerificaListas;
 
-public class RelatoriosCliente {
+public class Relatorios {
 	Scanner input = new Scanner(System.in);
+	VerificaListas verifica = new VerificaListas();
 	
 	public void tributacao(Conta conta) {
 		double qtdSaque = ((ContaCorrente)conta).getQtdSaque();
@@ -55,4 +61,52 @@ public class RelatoriosCliente {
 		System.out.println("Rendimento após "+prazo+" dias: " +rendimento);	
 		
 	}	
+	
+	public void gerente(List<Conta> listaConta, Conta conta) {
+		int contasNaAgencia = 0;
+		int agencia = conta.getAgencia();
+		
+		for(int i = 0; i < listaConta.size(); i++) {
+			if(agencia == listaConta.get(i).getAgencia())
+				contasNaAgencia++;
+		}
+		System.out.println("Numeros de Contas da agência: " +contasNaAgencia);
+		
+	}
+	
+	public void diretor(List<Conta> listaConta, List<Pessoa> listaPessoa) {
+		List<String> lista = new  ArrayList<>();
+		for(int i = 0; i < listaConta.size(); i++) {
+			String cpf = listaConta.get(i).getCpf();
+			int agencia = listaConta.get(i).getAgencia();
+			String nome = verifica.encontraPessoa(cpf, listaPessoa);
+			String linha = "\n**************************\nNome: "+nome +"\nCPF:"+cpf+"\nAgência:"+agencia;
+			lista.add(linha);
+		}
+		Collections.sort(lista);
+		System.out.println(lista);
+	}	
+	
+	public void presidente(List<Conta> listaConta) {
+		double capitalTotal = 0;
+		for(int i = 0; i<listaConta.size(); i++) {
+			capitalTotal += listaConta.get(i).getSaldo(); 
+		}
+		System.out.println("\n\n\n*****************************************");
+		System.out.println("Capital Armazenado no Banco: "+capitalTotal);
+		System.out.println("*****************************************");
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

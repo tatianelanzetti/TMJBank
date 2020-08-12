@@ -7,13 +7,13 @@ import java.util.Scanner;
 import ContasBancarias.Conta;
 import ContasBancarias.SeguroDeVida;
 import Pessoal.Pessoa;
-import Relatorios.RelatoriosCliente;
+import relatorios.Relatorios;
 
 public class Menu {
 
 		Scanner input = new Scanner(System.in);
 		VerificaListas verifica = new VerificaListas();
-		RelatoriosCliente relatorioCliente = new RelatoriosCliente();
+		Relatorios relatorio = new Relatorios();
 		SeguroDeVida seguroVida = new SeguroDeVida();
 	
 	public void displayMain(List<Pessoa> listaP, List<Conta> listaC) throws IOException {
@@ -53,10 +53,10 @@ public class Menu {
 						displayGerente(conta, listaC);
 					break;
 					case("DIRETOR"):
-						displayDiretor();
+						displayDiretor(conta, listaC, listaP);
 					break;
 					case("PRESIDENTE"):
-						displayPresidente();
+						displayPresidente(listaC);
 					}
 				} 
 				else
@@ -136,9 +136,9 @@ public class Menu {
 						if(opcao2 == 1){
 							System.out.println("Seu saldo atualizado é de R$ "+conta.getSaldo());
 						} else if(opcao2 == 2){
-							relatorioCliente.tributacao(conta);
+							relatorio.tributacao(conta);
 						} else if(opcao2 == 3){
-							relatorioCliente.rendimento();
+							relatorio.rendimento();
 						}
 						else{
 						System.out.println("Opção Inválida!");
@@ -158,7 +158,6 @@ public class Menu {
 		return true;
 	}
 	public void displayGerente(Conta conta, List<Conta> listaConta) {
-		Scanner input = new Scanner(System.in);
 		
 		System.out.println("*****************************************");
 		System.out.println("Como deseja acessar o sistema?");
@@ -170,16 +169,30 @@ public class Menu {
 		
 		if(opcao == 1)
 			displayCliente(conta, listaConta);
-		else {
-			System.out.println("Menu boladão do gerente");
-		}
+		else if(opcao == 2) {
+			relatorio.gerente(listaConta, conta );
+		} else
+			System.out.println("Opção Inválida");
 		
 	}
-	public void displayDiretor() {
-		System.out.println("MENU DIRETOR!");
+	public void displayDiretor(Conta conta, List<Conta> listaConta, List<Pessoa> listaPessoa) {
+		System.out.println("*****************************************");
+		System.out.println("Como deseja acessar o sistema?");
+		System.out.println("1 - Cliente");
+		System.out.println("2 - Diretor");
+		System.out.println("*****************************************");
+		System.out.println("Escolha uma opção: ");
+		int opcao = input.nextInt();
+		
+		if(opcao == 1)
+			displayCliente(conta, listaConta);
+		else if(opcao == 2) {
+			relatorio.diretor(listaConta, listaPessoa);
+		} else
+			System.out.println("Opção Inválida");
 	}
-	public void displayPresidente() {
-		System.out.println("MENU PRESIDENTE!");
+	public void displayPresidente(List<Conta> listaConta) {
+		relatorio.presidente(listaConta);
 	}
 	
 	
