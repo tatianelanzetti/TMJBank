@@ -219,6 +219,8 @@ public class EscritorDeTransacoes {
 		buffWrite.append(linha + "\n");
 		linha = "                  Valor da Operação: R$"+valor;
 		buffWrite.append(linha + "\n");
+		linha = "                Tributos de 20% sobre o valor pago.";
+		buffWrite.append(linha + "\n");
 		linha = "                    Valor Tributado: R$"+valor*taxas.TAXASEGUROVIDA;
 		buffWrite.append(linha + "\n");
 		linha = "         **********************************************";

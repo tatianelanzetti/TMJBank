@@ -17,18 +17,8 @@ public class Menu {
 		SeguroDeVida seguroVida = new SeguroDeVida();
 	
 	public void displayMain(List<Pessoa> listaP, List<Conta> listaC) throws IOException {
-		
-		System.out.println("\n******************************************************************************************");
-
-		System.out.println("    /$$$$$$$$ /$$      /$$    /$$$$$        /$$$$$$$   /$$$$$$  /$$   /$$ /$$   /$$");       
-		System.out.println("   |__  $$__/| $$$    /$$$   |__  $$       | $$__  $$ /$$__  $$| $$$ | $$| $$  /$$/");       
-		System.out.println("      | $$   | $$$$  /$$$$      | $$       | $$  \\ $$| $$  \\ $$| $$$$| $$| $$ /$$/ ");     
-		System.out.println("      | $$   | $$ $$/$$ $$      | $$       | $$$$$$$ | $$$$$$$$| $$ $$ $$| $$$$$/  ");       
-		System.out.println("      | $$   | $$  $$$| $$ /$$  | $$       | $$__  $$| $$__  $$| $$  $$$$| $$  $$  ");       
-		System.out.println("      | $$   | $$\\  $ | $$| $$  | $$       | $$  \\ $$| $$  | $$| $$\\  $$$| $$\\  $$ ");     
-		System.out.println("      | $$   | $$ \\/  | $$|  $$$$$$/       | $$$$$$$/| $$  | $$| $$ \\  $$| $$ \\  $$");      
-		System.out.println("      |__/   |__/     |__/ \\______/        |_______/ |__/  |__/|__/  \\__/|__/  \\__/");      
-		System.out.println("\n******************************************************************************************");
+		do {
+		imprimeLogo();
 		System.out.print("                                CPF: ");
 		String cpf = input.next();
 		
@@ -41,22 +31,26 @@ public class Menu {
 				System.out.print("                                PASSWORD:    ");
 				int password = input.nextInt();
  				if(listaP.get(i).getSenha() == password) { //Testa a senha
-					
+					limpaConsole();
  					tipo = listaP.get(i).getTipo();
 					Conta conta = VerificaListas.econtraConta(listaP.get(i).getCpf(), listaC);
 
 					switch(tipo) {
 					case("CLIENTE"):
 						displayCliente(conta, listaC, listaP.get(i), listaP);
+					    limpaConsole();
 					break;
 					case("GERENTE"):
 						displayGerente(conta, listaC, listaP.get(i), listaP);
+						limpaConsole();
 					break;
 					case("DIRETOR"):
 						displayDiretor(conta, listaP.get(i), listaC, listaP);
+						limpaConsole();
 					break;
 					case("PRESIDENTE"):
 						displayPresidente(listaC, conta, listaP.get(i), listaP);
+						limpaConsole();
 					}
 				} 
 				else
@@ -66,6 +60,7 @@ public class Menu {
 		
 		if(!cpfCadastrado) // Caso cpf não esteja cadastrado
 			System.out.println("                                CPF NÃO CADASTRADO!");
+		}while(true);
 	}
 	
 	public boolean displayCliente(Conta conta, List<Conta> listaConta, Pessoa pessoa, List<Pessoa> listaPessoa) throws IOException {
@@ -81,8 +76,10 @@ public class Menu {
 
 		resp = "S";
 
-
+		
 		while(resp.equalsIgnoreCase("S")){
+			limpaConsole();
+			imprimeLogo();
 			do{
 				System.out.println("                  *********************************************");
 				System.out.println("                           1 - Movimentações da Conta");
@@ -90,7 +87,8 @@ public class Menu {
 				System.out.println("                  *********************************************");
 				System.out.print("                                 Escolha uma opção: ");
 				opcao = input.nextInt();
-		
+				limpaConsole();
+				imprimeLogo();
 				switch(opcao) {
 					case(1):
 						do{
@@ -138,6 +136,8 @@ public class Menu {
 							} else if(opcao1 == 4){
 								System.out.println("                  *********************************************");
 								System.out.println("                          Contratação de Seguro de Vida");
+								System.out.println("                          Essa operação tem incidência ");
+								System.out.println("                      de 20% de tributos sobre o valor pago.");
 								System.out.print("                          Informe o valor segurado: ");
 								Double valor = input.nextDouble();
 								boolean contratou = seguroVida.contrata(conta, valor);
@@ -161,7 +161,8 @@ public class Menu {
 						System.out.println("                  *********************************************");
 						System.out.print("                               Escolha uma opção: ");
 						opcao2 = input.nextInt();
-				
+						limpaConsole();
+						imprimeLogo();
 						if(opcao2 == 1){
 							System.out.println("                       Seu saldo atualizado é de R$ "+conta.getSaldo());
 							EscritorDeTransacoes.saldo(pessoa, conta);
@@ -197,18 +198,21 @@ public class Menu {
 			System.out.println("                  *********************************************");
 			System.out.print("                        Deseja fazer outra operação? (S/N) ");
 			resp = input.next();
-			System.out.println("                  *********************************************");
-			System.out.println("                           Foi um prazer atendê-lo(a)!");
-			System.out.println("                                 Tenha um bom dia!");
 		}
+		System.out.println("                  *********************************************");
+		System.out.println("                           Foi um prazer atendê-lo(a)!");
+		System.out.println("                                 Tenha um bom dia!");
+		
 		return true;
 	}
 	public void displayGerente(Conta conta, List<Conta> listaConta, Pessoa pessoa, List<Pessoa> listaPessoa) throws IOException {
 		
 		int opcao;
-		String opcao1;
+		String opcao1 = "";
 		do {
 		do {
+		limpaConsole();
+		imprimeLogo();	
 		System.out.println("                  *********************************************");
 		System.out.println("                          Como deseja acessar o sistema?");
 		System.out.println("                                  1 - Cliente");
@@ -222,25 +226,26 @@ public class Menu {
 		else if(opcao == 2) {
 			int contaAgencia = relatorio.gerente(listaConta, conta );
 			EscritorDeTransacoes.relatorioGerente(pessoa, conta, contaAgencia);
-		} else {
+			System.out.println("                  *********************************************");
+			System.out.print("                        Deseja fazer outra operação? (S/N) ");
+			opcao1 = input.next();
+		} 
+		 else {
 			System.out.println("                  *********************************************");
 			System.out.println("                                  Opção Inválida");
 			System.out.println("                             Escolha uma opção Válida: ");
 		}	
 		}while(opcao > 2 || opcao < 1);
-		System.out.println("                  *********************************************");
-		System.out.print("                        Deseja fazer outra operação? (S/N) ");
-		opcao1= input.next();
-		System.out.println("                  *********************************************");
-		System.out.println("                           Foi um prazer atendê-lo(a)!");
-		System.out.println("                                 Tenha um bom dia!");
 		}while(opcao1.equalsIgnoreCase("S"));
 	}
+		
 	public void displayDiretor(Conta conta, Pessoa pessoa, List<Conta> listaConta, List<Pessoa> listaPessoa) throws IOException {
 		int opcao;
-		String opcao1;
+		String opcao1 = "";
 		do {
 		do {
+		limpaConsole();
+		imprimeLogo();		
 		System.out.println("                  *********************************************");
 		System.out.println("                          Como deseja acessar o sistema?");
 		System.out.println("                                  1 - Cliente");
@@ -254,25 +259,26 @@ public class Menu {
 		else if(opcao == 2) {
 			List<String> lista = relatorio.diretor(listaConta, listaPessoa);
 			EscritorDeTransacoes.relatorioDiretor(pessoa, conta, lista);
+			System.out.println("                  *********************************************");
+			System.out.print("                        Deseja fazer outra operação? (S/N) ");
+			opcao1 = input.next();
 		} else {
 		System.out.println("                  *********************************************");
 		System.out.println("                                  Opção Inválida");
 		System.out.println("                             Escolha uma opção Válida: ");
 		}
 		}while(opcao > 2 || opcao < 1);
-		System.out.println("                  *********************************************");
-		System.out.print("                        Deseja fazer outra operação? (S/N) ");
-		opcao1= input.next();
-		System.out.println("                  *********************************************");
-		System.out.println("                           Foi um prazer atendê-lo(a)!");
-		System.out.println("                                 Tenha um bom dia!");
 		}while(opcao1.equalsIgnoreCase("S"));
+		
+		
 	}
 	public void displayPresidente(List<Conta> listaConta, Conta conta, Pessoa pessoa, List<Pessoa> listaPessoa) throws IOException {
 		int opcao;
-		String opcao1;
+		String opcao1 = "";
 		do {
 		do {
+		limpaConsole();
+		imprimeLogo();	
 		System.out.println("                  *********************************************");
 		System.out.println("                          Como deseja acessar o sistema?");
 		System.out.println("                                  1 - Cliente");
@@ -286,19 +292,44 @@ public class Menu {
 		else if(opcao == 2) {
 			double totalPassivo = relatorio.presidente(listaConta);
 			EscritorDeTransacoes.relatorioPresidente(pessoa, conta, totalPassivo);
+			System.out.println("                  *********************************************");
+			System.out.print("                        Deseja fazer outra operação? (S/N) ");
+			opcao1 = input.next();
 		} else {
 		System.out.println("                  *********************************************");
 		System.out.println("                                  Opção Inválida");
 		System.out.println("                             Escolha uma opção Válida: ");
 		}
 		}while(opcao > 2 || opcao < 1);
-		System.out.println("                  *********************************************");
-		System.out.print("                        Deseja fazer outra operação? (S/N) ");
-		opcao1= input.next();
-		System.out.println("                  *********************************************");
-		System.out.println("                           Foi um prazer atendê-lo(a)!");
-		System.out.println("                                 Tenha um bom dia!");
-		}while(opcao1.equalsIgnoreCase("S"));
+	    }while(opcao1.equalsIgnoreCase("S"));
+		
+	
+	}
+	public void limpaConsole()
+    {
+        try
+        {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            //Runtime.getRuntime().exec("cmd /c cls");
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+	
+	public void imprimeLogo() {
+		System.out.println("\n******************************************************************************************");
+
+		System.out.println("    /$$$$$$$$ /$$      /$$    /$$$$$        /$$$$$$$   /$$$$$$  /$$   /$$ /$$   /$$");       
+		System.out.println("   |__  $$__/| $$$    /$$$   |__  $$       | $$__  $$ /$$__  $$| $$$ | $$| $$  /$$/");       
+		System.out.println("      | $$   | $$$$  /$$$$      | $$       | $$  \\ $$| $$  \\ $$| $$$$| $$| $$ /$$/ ");     
+		System.out.println("      | $$   | $$ $$/$$ $$      | $$       | $$$$$$$ | $$$$$$$$| $$ $$ $$| $$$$$/  ");       
+		System.out.println("      | $$   | $$  $$$| $$ /$$  | $$       | $$__  $$| $$__  $$| $$  $$$$| $$  $$  ");       
+		System.out.println("      | $$   | $$\\  $ | $$| $$  | $$       | $$  \\ $$| $$  | $$| $$\\  $$$| $$\\  $$ ");     
+		System.out.println("      | $$   | $$ \\/  | $$|  $$$$$$/       | $$$$$$$/| $$  | $$| $$ \\  $$| $$ \\  $$");      
+		System.out.println("      |__/   |__/     |__/ \\______/        |_______/ |__/  |__/|__/  \\__/|__/  \\__/");      
+		System.out.println("\n******************************************************************************************");
 	}
 	}
 	
