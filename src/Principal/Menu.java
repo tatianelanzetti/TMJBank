@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import ContasBancarias.Conta;
 import ContasBancarias.SeguroDeVida;
+import Exceptions.NumeroNegativoException;
 import Pessoal.Pessoa;
 import relatorios.Relatorios;
 
@@ -102,12 +103,23 @@ public class Menu {
 							System.out.print("                                Escolha uma opção: ");
 							opcao1 = input.nextInt();
 							if(opcao1 == 1){
-								System.out.print("                     Digite o valor desejado para saque: ");
-								double valor = input.nextDouble(); 
-								boolean sacou = conta.Sacar(valor);
-								if(sacou)
-									EscritorDeTransacoes.escritorSaque(pessoa, conta, valor);
-							} else if(opcao1 == 2){
+                                boolean sacou = false;
+                                do {
+                                    try {
+                                        System.out.print("                     Digite o valor desejado para saque: ");
+                                        double valor = input.nextDouble();
+                                        if(valor <= 0)
+                                            throw new NumeroNegativoException(valor);
+                                            sacou = conta.Sacar(valor);
+                                            if(sacou)
+                                                EscritorDeTransacoes.escritorSaque(pessoa, conta, valor);
+                                    } catch(NumeroNegativoException e) {
+                                        System.err.println("                 Ocorreu um erro! Informe um valor positivo.");
+                                        
+                                    }
+                                }while(!sacou);
+                            }
+                            else if(opcao1 == 2){
 								System.out.print("                        Digite o valor para depósito: ");
 								double valor = input.nextDouble();
 								boolean depositou = conta.Depositar(valor);
@@ -166,7 +178,7 @@ public class Menu {
 							int prazo = input.nextInt();
 							
 							relatorio.rendimento(valor, prazo);
-							
+							EscritorDeTransacoes.Rendimento(pessoa, conta, valor, prazo);
 						}
 						else{
 						System.out.println("                  *********************************************");
@@ -193,34 +205,49 @@ public class Menu {
 	}
 	public void displayGerente(Conta conta, List<Conta> listaConta, Pessoa pessoa, List<Pessoa> listaPessoa) throws IOException {
 		
-//		do {
+		int opcao;
+		String opcao1;
+		do {
+		do {
 		System.out.println("                  *********************************************");
 		System.out.println("                          Como deseja acessar o sistema?");
 		System.out.println("                                  1 - Cliente");
 		System.out.println("                                  2 - Gerente");
 		System.out.println("                  *********************************************");
 		System.out.print("                                Escolha uma opção: ");
-		int opcao = input.nextInt();
+		opcao = input.nextInt();
 		
 		if(opcao == 1)
 			displayCliente(conta, listaConta, pessoa, listaPessoa);
 		else if(opcao == 2) {
-			relatorio.gerente(listaConta, conta );
+			int contaAgencia = relatorio.gerente(listaConta, conta );
+			EscritorDeTransacoes.relatorioGerente(pessoa, conta, contaAgencia);
 		} else {
 			System.out.println("                  *********************************************");
 			System.out.println("                                  Opção Inválida");
 			System.out.println("                             Escolha uma opção Válida: ");
 		}	
-//		}while(opcao > 2 || opcao < 1);
+		}while(opcao > 2 || opcao < 1);
+		System.out.println("                  *********************************************");
+		System.out.print("                        Deseja fazer outra operação? (S/N) ");
+		opcao1= input.next();
+		System.out.println("                  *********************************************");
+		System.out.println("                           Foi um prazer atendê-lo(a)!");
+		System.out.println("                                 Tenha um bom dia!");
+		}while(opcao1.equalsIgnoreCase("S"));
 	}
 	public void displayDiretor(Conta conta, Pessoa pessoa, List<Conta> listaConta, List<Pessoa> listaPessoa) throws IOException {
+		int opcao;
+		String opcao1;
+		do {
+		do {
 		System.out.println("                  *********************************************");
 		System.out.println("                          Como deseja acessar o sistema?");
 		System.out.println("                                  1 - Cliente");
 		System.out.println("                                  2 - Diretor");
 		System.out.println("                  *********************************************");
 		System.out.print("                                Escolha uma opção: ");
-		int opcao = input.nextInt();
+		opcao = input.nextInt();
 		
 		if(opcao == 1)
 			displayCliente(conta, listaConta, pessoa, listaPessoa);
@@ -232,15 +259,27 @@ public class Menu {
 		System.out.println("                                  Opção Inválida");
 		System.out.println("                             Escolha uma opção Válida: ");
 		}
+		}while(opcao > 2 || opcao < 1);
+		System.out.println("                  *********************************************");
+		System.out.print("                        Deseja fazer outra operação? (S/N) ");
+		opcao1= input.next();
+		System.out.println("                  *********************************************");
+		System.out.println("                           Foi um prazer atendê-lo(a)!");
+		System.out.println("                                 Tenha um bom dia!");
+		}while(opcao1.equalsIgnoreCase("S"));
 	}
 	public void displayPresidente(List<Conta> listaConta, Conta conta, Pessoa pessoa, List<Pessoa> listaPessoa) throws IOException {
+		int opcao;
+		String opcao1;
+		do {
+		do {
 		System.out.println("                  *********************************************");
 		System.out.println("                          Como deseja acessar o sistema?");
 		System.out.println("                                  1 - Cliente");
 		System.out.println("                                  2 - Presidente");
 		System.out.println("                  *********************************************");
 		System.out.print("                                Escolha uma opção: ");
-		int opcao = input.nextInt();
+		opcao = input.nextInt();
 		
 		if(opcao == 1)
 			displayCliente(conta, listaConta, pessoa, listaPessoa);
@@ -252,9 +291,18 @@ public class Menu {
 		System.out.println("                                  Opção Inválida");
 		System.out.println("                             Escolha uma opção Válida: ");
 		}
+		}while(opcao > 2 || opcao < 1);
+		System.out.println("                  *********************************************");
+		System.out.print("                        Deseja fazer outra operação? (S/N) ");
+		opcao1= input.next();
+		System.out.println("                  *********************************************");
+		System.out.println("                           Foi um prazer atendê-lo(a)!");
+		System.out.println("                                 Tenha um bom dia!");
+		}while(opcao1.equalsIgnoreCase("S"));
+	}
 	}
 	
 	
 
-}
+
 

@@ -41,8 +41,8 @@ public class Relatorios {
 		
 		if(((ContaCorrente)conta).isTemSeguro()) {
 			double valorSegurado = ((ContaCorrente)conta).getValorSeguro();
-			System.out.println("                      Valor do seguro de vida contratado: " +valorSegurado );
-			System.out.println("                      Taxa debitada no ato da contratação: " +valorSegurado*taxas.TAXASEGUROVIDA);
+			System.out.println("                   Valor do seguro de vida contratado: " +valorSegurado );
+			System.out.println("                   Taxa debitada no ato da contratação: " +valorSegurado*taxas.TAXASEGUROVIDA);
 		}
 		return totalGastos;
 	}
@@ -60,8 +60,9 @@ public class Relatorios {
 		int agencia = conta.getAgencia();
 		
 		for(int i = 0; i < listaConta.size(); i++) {
-			if(agencia == listaConta.get(i).getAgencia())
+			if(agencia == listaConta.get(i).getAgencia()) {
 				contasNaAgencia++;
+			}
 		}
 		System.out.println("                         Numeros de Contas da agência: " +contasNaAgencia);
 		System.out.println("                  *********************************************");
@@ -76,12 +77,13 @@ public class Relatorios {
 			String cpf = listaConta.get(i).getCpf();
 			int agencia = listaConta.get(i).getAgencia();
 			String nome = VerificaListas.encontraPessoa(cpf, listaPessoa);
-			String linha = "\n          *********************************************\n          Nome: "+nome +"\n          CPF:"+cpf+"\n          Agência:"+agencia;
+			String linha = "          *********************************************\n                  Nome: "+nome +"\n                  CPF:"+cpf+"\n                  Agência:"+agencia +"\n";
 			lista.add(linha);
 			
 		}
 		Collections.sort(lista);
-		System.out.println(lista);
+		for(int i = 0; i<lista.size(); i++)
+			System.out.println("        "+ lista.get(i)); 
 		System.out.println("                  *********************************************");
 		System.out.println("                               Final do Relatório");
 		return lista;

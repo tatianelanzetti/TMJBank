@@ -448,7 +448,7 @@ public class EscritorDeTransacoes {
 		buffWrite.append(linha + "\n");
 		linha = "                  Relatório de Contas Ativas";
 		buffWrite.append(linha + "\n\n");
-		linha = "              Numero Total de Contas da agência"+contasAgencia;
+		linha = "              Numero Total de Contas da agência: "+contasAgencia;
 		buffWrite.append(linha + "\n\n");
 		linha = "                        Final do Relatório";
 		buffWrite.append(linha + "\n");
@@ -491,6 +491,8 @@ public class EscritorDeTransacoes {
 			linha = lista.get(i);
 			buffWrite.append(linha + "\n\n");			
 		}
+		linha = "         **********************************************";
+		buffWrite.append(linha + "\n");
 		linha = "                        Final do Relatório";
 		buffWrite.append(linha + "\n");
 		linha = "         **********************************************";
