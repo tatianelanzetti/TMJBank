@@ -18,8 +18,8 @@ public abstract class Conta {
 	}
 	
 	public abstract boolean Sacar(double valor);
-	public abstract void Depositar (double valor);
-	public abstract void Transferir(Conta destino, double valor);
+	public abstract boolean Depositar (double valor);
+	public abstract boolean Transferir(Conta destino, double valor);
 	public abstract void DepositarTransferencia(double valor );
 	
 	public String getCpf() {

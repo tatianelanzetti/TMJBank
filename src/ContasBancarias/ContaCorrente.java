@@ -1,5 +1,6 @@
 package ContasBancarias;
 
+
 public class ContaCorrente extends Conta implements taxas{
 	
 	private int qtdSaque = 0, qtdDeposito = 0, qtdTransferencia = 0;
@@ -22,10 +23,11 @@ public class ContaCorrente extends Conta implements taxas{
 		return false;
 	}
 	@Override
-	public void Depositar (double valor) {
+	public boolean Depositar (double valor) {
 		double deposite = this.getSaldo() + valor - TAXADEPOSITO;
 		this.setSaldo(deposite);
 		this.qtdDeposito++;
+		return true;
 	}
 	@Override
 	public void DepositarTransferencia (double valor) {
@@ -33,15 +35,15 @@ public class ContaCorrente extends Conta implements taxas{
 		this.setSaldo(deposite);
 	}
 	@Override
-	public void Transferir (Conta Destino, double valor) {
+	public boolean Transferir (Conta Destino, double valor) {
 		if (this.getSaldo() >= valor + TAXATRANSFERENCIA) {
 			this.Sacar(valor + TAXASAQUE);
 			Destino.DepositarTransferencia(valor);
 			this.qtdTransferencia++;
-			
-		}else {
-			System.out.println("Saldo insuficiente.");
-		}
+			return true;
+		}	
+		System.out.println("Saldo insuficiente.");
+		return false;
 	}
 
 	public int getQtdSaque() {

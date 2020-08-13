@@ -1,7 +1,5 @@
 package ContasBancarias;
 
-import java.util.Scanner;
-
 public class SeguroDeVida {
 	private double valor;
 	private static int nroApolice = 0;
@@ -10,12 +8,9 @@ public class SeguroDeVida {
 		nroApolice++;
 	}
 	
-	public void contrata(Conta conta) {
-		Scanner input = new Scanner(System.in);
-		
-		System.out.println("Contratação de Seguro de Vida");
-		System.out.println("Informe o valor: ");
-		valor = input.nextDouble();
+	public boolean contrata(Conta conta, double valor) {
+
+		this.valor = valor;
 		
 		double precoSeguro = valor * taxas.TAXASEGUROVIDA;
 		double saldo = ((ContaCorrente)conta).getSaldo();
@@ -24,11 +19,10 @@ public class SeguroDeVida {
 			((ContaCorrente)conta).setSaldo(saldo - precoSeguro);
 			((ContaCorrente)conta).setTemSeguro(true);
 			((ContaCorrente)conta).setValorSeguro(valor);
+			return true;
 		}
-		else {
 			System.out.println("Valor do saldo insuficiente!");
-			
-		}
+			return false;
 	}
 
 	public double getValor() {

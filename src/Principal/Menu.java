@@ -12,7 +12,6 @@ import relatorios.Relatorios;
 public class Menu {
 
 		Scanner input = new Scanner(System.in);
-		VerificaListas verifica = new VerificaListas();
 		Relatorios relatorio = new Relatorios();
 		SeguroDeVida seguroVida = new SeguroDeVida();
 	
@@ -43,20 +42,20 @@ public class Menu {
  				if(listaP.get(i).getSenha() == password) { //Testa a senha
 					
  					tipo = listaP.get(i).getTipo();
-					Conta conta = verifica.econtraConta(listaP.get(i).getCpf(), listaC);
+					Conta conta = VerificaListas.econtraConta(listaP.get(i).getCpf(), listaC);
 
 					switch(tipo) {
 					case("CLIENTE"):
-						displayCliente(conta, listaC, listaP.get(i));
+						displayCliente(conta, listaC, listaP.get(i), listaP);
 					break;
 					case("GERENTE"):
-						displayGerente(conta, listaC, listaP.get(i));
+						displayGerente(conta, listaC, listaP.get(i), listaP);
 					break;
 					case("DIRETOR"):
 						displayDiretor(conta, listaP.get(i), listaC, listaP);
 					break;
 					case("PRESIDENTE"):
-						displayPresidente(listaC);
+						displayPresidente(listaC, conta, listaP.get(i), listaP);
 					}
 				} 
 				else
@@ -68,7 +67,7 @@ public class Menu {
 			System.out.println("                                CPF NÃO CADASTRADO!");
 	}
 	
-	public boolean displayCliente(Conta conta, List<Conta> listaConta, Pessoa pessoa) throws IOException {
+	public boolean displayCliente(Conta conta, List<Conta> listaConta, Pessoa pessoa, List<Pessoa> listaPessoa) throws IOException {
 		if(conta == null) return false;
 		
 		System.out.println("MENU CLIENTE!");
@@ -109,15 +108,27 @@ public class Menu {
 									EscritorDeTransacoes.escritorSaque(pessoa, conta, valor);
 							} else if(opcao1 == 2){
 								System.out.println("Digite o valor para depósito: ");
-								conta.Depositar(input.nextDouble());
+								double valor = input.nextDouble();
+								boolean depositou = conta.Depositar(valor);
+								if(depositou)
+									EscritorDeTransacoes.escritorDeposito(pessoa, conta, valor);
 							} else if(opcao1 == 3){
-								System.out.println("Digite o valor para depósito: ");
+								System.out.println("Digite o valor para transferência: ");
 								double valor = input.nextDouble();
 								System.out.println("Digite o CPF da conta destino: ");
 								String cpf = input.next();
-								conta.Transferir(verifica.econtraConta(cpf, listaConta), valor);
+								Conta destino = VerificaListas.econtraConta(cpf, listaConta);
+								boolean transferiu = conta.Transferir(destino, valor);
+									if(transferiu)
+										System.out.println("Valor transferido para "+VerificaListas.encontraPessoa(cpf, listaPessoa));
+										EscritorDeTransacoes.escritorTransferencia(pessoa, conta, valor, destino, listaPessoa);
 							} else if(opcao1 == 4){
-								seguroVida.contrata(conta);
+								System.out.println("Contratação de Seguro de Vida");
+								System.out.println("Informe o valor segurado: ");
+								Double valor = input.nextDouble();
+								boolean contratou = seguroVida.contrata(conta, valor);
+								if(contratou)
+									EscritorDeTransacoes.seguroDeVida(pessoa, conta, valor);
 							} 
 							else {
 								System.out.println("Opção Inválida!");
@@ -138,10 +149,19 @@ public class Menu {
 				
 						if(opcao2 == 1){
 							System.out.println("Seu saldo atualizado é de R$ "+conta.getSaldo());
+							EscritorDeTransacoes.saldo(pessoa, conta);
 						} else if(opcao2 == 2){
-							relatorio.tributacao(conta);
+							double totalGastos = relatorio.tributacao(conta);
+							EscritorDeTransacoes.tributacao(pessoa, conta, totalGastos);
 						} else if(opcao2 == 3){
-							relatorio.rendimento();
+							System.out.println("Simulação de investimento em Poupança");
+							System.out.println("Digite o valor desejado: ");
+							double valor = input.nextDouble();
+							System.out.println("Digite o prazo do investimento em dias: ");
+							int prazo = input.nextInt();
+							
+							relatorio.rendimento(valor, prazo);
+							
 						}
 						else{
 						System.out.println("Opção Inválida!");
@@ -160,7 +180,7 @@ public class Menu {
 		}
 		return true;
 	}
-	public void displayGerente(Conta conta, List<Conta> listaConta, Pessoa pessoa) throws IOException {
+	public void displayGerente(Conta conta, List<Conta> listaConta, Pessoa pessoa, List<Pessoa> listaPessoa) throws IOException {
 		
 		System.out.println("*****************************************");
 		System.out.println("Como deseja acessar o sistema?");
@@ -171,7 +191,7 @@ public class Menu {
 		int opcao = input.nextInt();
 		
 		if(opcao == 1)
-			displayCliente(conta, listaConta, pessoa);
+			displayCliente(conta, listaConta, pessoa, listaPessoa);
 		else if(opcao == 2) {
 			relatorio.gerente(listaConta, conta );
 		} else
@@ -188,14 +208,29 @@ public class Menu {
 		int opcao = input.nextInt();
 		
 		if(opcao == 1)
-			displayCliente(conta, listaConta, pessoa);
+			displayCliente(conta, listaConta, pessoa, listaPessoa);
 		else if(opcao == 2) {
-			relatorio.diretor(listaConta, listaPessoa);
+			List<String> lista = relatorio.diretor(listaConta, listaPessoa);
+			EscritorDeTransacoes.relatorioDiretor(pessoa, conta, lista);
 		} else
 			System.out.println("Opção Inválida");
 	}
-	public void displayPresidente(List<Conta> listaConta) {
-		relatorio.presidente(listaConta);
+	public void displayPresidente(List<Conta> listaConta, Conta conta, Pessoa pessoa, List<Pessoa> listaPessoa) throws IOException {
+		System.out.println("*****************************************");
+		System.out.println("Como deseja acessar o sistema?");
+		System.out.println("1 - Cliente");
+		System.out.println("2 - Presidente");
+		System.out.println("*****************************************");
+		System.out.println("Escolha uma opção: ");
+		int opcao = input.nextInt();
+		
+		if(opcao == 1)
+			displayCliente(conta, listaConta, pessoa, listaPessoa);
+		else if(opcao == 2) {
+			double totalPassivo = relatorio.presidente(listaConta);
+			EscritorDeTransacoes.relatorioPresidente(pessoa, conta, totalPassivo);
+		} else
+			System.out.println("Opção Inválida");
 	}
 	
 	
